@@ -1,5 +1,5 @@
-import java.lang.Exception
-import java.lang.IllegalArgumentException
+import HandShape.*
+import RoundResult.*
 
 
 enum class HandShape(val points: Int) {
@@ -25,25 +25,25 @@ fun part1(input: String): Int {
 
     fun String.convertToHandShape(): HandShape {
         return when {
-            listOf("A", "X").any { it == this } -> HandShape.Rock
-            listOf("B", "Y").any { it == this } -> HandShape.Paper
-            listOf("C", "Z").any { it == this } -> HandShape.Scissors
+            listOf("A", "X").any { it == this } -> Rock
+            listOf("B", "Y").any { it == this } -> Paper
+            listOf("C", "Z").any { it == this } -> Scissors
             else -> error("Wrong Shape")
         }
     }
 
     fun calculateRound(pair: Pair<HandShape, HandShape>) = when (pair) {
-        (HandShape.Paper to HandShape.Rock),
-        (HandShape.Rock to HandShape.Scissors),
-        (HandShape.Scissors to HandShape.Paper) -> 0
+        (Paper to Rock),
+        (Rock to Scissors),
+        (Scissors to Paper) -> 0
 
-        (HandShape.Paper to HandShape.Paper),
-        (HandShape.Rock to HandShape.Rock),
-        (HandShape.Scissors to HandShape.Scissors) -> 3
+        (Paper to Paper),
+        (Rock to Rock),
+        (Scissors to Scissors) -> 3
 
-        (HandShape.Scissors to HandShape.Rock),
-        (HandShape.Rock to HandShape.Paper),
-        (HandShape.Paper to HandShape.Scissors) -> 6
+        (Scissors to Rock),
+        (Rock to Paper),
+        (Paper to Scissors) -> 6
 
         else -> error("Wrong Round")
     }
@@ -63,41 +63,41 @@ fun part1(input: String): Int {
 fun part2(input: String): Int {
 
     fun convertToShape(shape: String): HandShape = when (shape) {
-        "A" -> HandShape.Rock
-        "B" -> HandShape.Paper
-        "C" -> HandShape.Scissors
+        "A" -> Rock
+        "B" -> Paper
+        "C" -> Scissors
         else -> error("Wrong Shape")
     }
 
     fun computeRoundResult(roundResult: String) = when (roundResult) {
-        "X" -> RoundResult.LOSE
-        "Y" -> RoundResult.DRAW
-        "Z" -> RoundResult.WIN
+        "X" -> LOSE
+        "Y" -> DRAW
+        "Z" -> WIN
         else -> error("Wrong Shape")
     }
 
     fun computeUserHand(roundResult: RoundResult, opponentHand: HandShape): HandShape = when (roundResult) {
-        RoundResult.WIN -> {
+        WIN -> {
             when (opponentHand) {
-                HandShape.Rock -> HandShape.Paper
-                HandShape.Paper -> HandShape.Scissors
-                HandShape.Scissors -> HandShape.Rock
+                Rock -> Paper
+                Paper -> Scissors
+                Scissors -> Rock
             }
         }
 
-        RoundResult.LOSE -> {
+        LOSE -> {
             when (opponentHand) {
-                HandShape.Rock -> HandShape.Scissors
-                HandShape.Paper -> HandShape.Rock
-                HandShape.Scissors -> HandShape.Paper
+                Rock -> Scissors
+                Paper -> Rock
+                Scissors -> Paper
             }
         }
 
-        RoundResult.DRAW -> {
+        DRAW -> {
             when (opponentHand) {
-                HandShape.Rock -> HandShape.Rock
-                HandShape.Paper -> HandShape.Paper
-                HandShape.Scissors -> HandShape.Scissors
+                Rock -> Rock
+                Paper -> Paper
+                Scissors -> Scissors
             }
         }
     }
